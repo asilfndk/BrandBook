@@ -24,7 +24,7 @@ def initialize_model():
 
     print("\n=== AI Model Selection ===")
     print("Please choose your AI provider:")
-    print("1. OpenAI (GPT-5)")
+    print("1. OpenAI (GPT-5.1)")
     print("2. Google Gemini (2.5-pro)")
     print("3. Local Ollama (deepseek-r1)")
 
@@ -33,7 +33,7 @@ def initialize_model():
 
         if choice == "1":
             MODEL_PROVIDER = "openai"
-            MODEL_NAME = "gpt-5"
+            MODEL_NAME = "gpt-5.1"
             api_key = os.getenv('OPENAI_API_KEY')
             if api_key and api_key.startswith('sk-') and len(api_key) > 10:
                 print("✓ OpenAI API key looks good")

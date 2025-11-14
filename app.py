@@ -28,11 +28,11 @@ async def lifespan(app: FastAPI):
     if not model_initialized:
         try:
             generator.MODEL_PROVIDER = "openai"
-            generator.MODEL_NAME = "gpt-5"
+            generator.MODEL_NAME = "gpt-5.1"
             from openai import OpenAI
             generator.client = OpenAI()
             model_initialized = True
-            print("✓ Model initialized with OpenAI GPT-5")
+            print("✓ Model initialized with OpenAI GPT-5.1")
         except Exception as e:
             print(f"⚠️ Model initialization failed: {e}")
 
@@ -148,7 +148,7 @@ async def set_model(
         generator.MODEL_PROVIDER = provider
 
         if provider == "openai":
-            generator.MODEL_NAME = model_name or "gpt-5"
+            generator.MODEL_NAME = model_name or "gpt-5.1"
             from openai import OpenAI
             generator.client = OpenAI()
 

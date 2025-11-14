@@ -164,14 +164,14 @@ for line in response.iter_lines():
 
 - **Backend**: FastAPI (Python)
 - **Frontend**: Vanilla JavaScript, HTML5, CSS3
-- **AI**: LangChain, OpenAI GPT-4
+- **AI**: LangChain, OpenAI GPT-5.1
 - **Search**: DuckDuckGo API via ddgs package
 - **Scraping**: BeautifulSoup4
 - **Markdown**: Marked.js for rendering
 
 ## Performance Tips
 
-1. **Use OpenAI GPT-4** for best quality results
+1. **Use OpenAI GPT-5.1** for best quality results
 2. **Ollama (local)** for privacy and unlimited usage
 3. **Gemini** for cost-effective alternative
 4. Keep brochures under 2000 characters for faster generation

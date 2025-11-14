@@ -98,7 +98,7 @@ def extract_domain_from_results(results):
     return None
 
 
-def find_company_url(company_name, model_provider="openai", model_name="gpt-5", client=None):
+def find_company_url(company_name, model_provider="openai", model_name="gpt-5.1", client=None):
     """
     Use LangChain to find the official website URL for a given company name
 
@@ -192,7 +192,7 @@ def find_company_url(company_name, model_provider="openai", model_name="gpt-5", 
             raise ValueError("No valid URL found in search results")
         else:
             # Fallback to OpenAI
-            llm = ChatOpenAI(model="gpt-5", temperature=0)
+            llm = ChatOpenAI(model="gpt-5.1", temperature=0)
 
         # Create prompt template
         template = """Based on the following search results, extract the official website URL for {company_name}.

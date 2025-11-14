@@ -6,7 +6,7 @@ An intelligent brochure generator that automatically discovers company websites 
 
 - 🌐 **Web UI Interface**: Modern, responsive web application with real-time streaming
 - 🤖 **AI-Powered URL Discovery**: Automatically finds company websites using LangChain and DuckDuckGo
-- 🎨 **Multiple AI Providers**: Support for OpenAI (GPT-4/5), Google Gemini (2.5-pro), and Local Ollama (deepseek-r1)
+- 🎨 **Multiple AI Providers**: Support for OpenAI (GPT-5.1), Google Gemini (2.5-pro), and Local Ollama (deepseek-r1)
 - 🔍 **Smart Web Scraping**: Intelligently extracts relevant information from company websites
 - 📄 **Professional Brochures**: Generates comprehensive brochures in markdown format
 - ⚡ **Streaming Output**: Real-time brochure generation with typewriter animation
@@ -91,7 +91,7 @@ python main.py
 $ python main.py
 
 === AI Model Selection ===
-1. OpenAI (GPT-5)
+1. OpenAI (GPT-5.1)
 2. Google Gemini (2.5-pro)
 3. Local Ollama (deepseek-r1)
 
@@ -190,7 +190,7 @@ for line in response.iter_lines():
 **OpenAI (Default)**
 ```python
 MODEL_PROVIDER = "openai"
-MODEL_NAME = "gpt-5"  # or "gpt-4"
+MODEL_NAME = "gpt-5.1"
 ```
 
 **Google Gemini**
@@ -318,7 +318,7 @@ pip install -r requirements.txt
 
 ## 🚀 Performance Tips
 
-1. **Use OpenAI GPT-5** for best quality results
+1. **Use OpenAI GPT-5.1** for best quality results
 2. **Ollama (local)** for privacy and unlimited usage
 3. **Gemini** for cost-effective alternative
 4. **Cache URL discoveries** to avoid repeated searches

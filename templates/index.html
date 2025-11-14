@@ -323,10 +323,10 @@
             <div
               class="model-option"
               data-provider="openai"
-              onclick="selectModel('openai', 'gpt-5')"
+              onclick="selectModel('openai', 'gpt-5.1')"
             >
               <h3>🤖 OpenAI</h3>
-              <p>GPT-5</p>
+              <p>GPT-5.1</p>
               <small>Best quality</small>
             </div>
             <div
@@ -359,7 +359,7 @@
             "
           >
             <strong>Selected:</strong>
-            <span id="currentModel">OpenAI GPT-4</span>
+            <span id="currentModel">OpenAI GPT-5.1</span>
           </div>
         </div>
 
@@ -428,11 +428,11 @@
     <script>
       let currentCompanyName = "";
       let selectedProvider = "openai";
-      let selectedModel = "gpt-5";
+      let selectedModel = "gpt-5.1";
 
       // Initialize model on page load
       window.addEventListener("DOMContentLoaded", function () {
-        selectModel("openai", "gpt-5");
+        selectModel("openai", "gpt-5.1");
       });
 
       async function selectModel(provider, modelName) {
@@ -449,7 +449,7 @@
 
         // Show status
         const modelNames = {
-          openai: "OpenAI GPT-5",
+          openai: "OpenAI GPT-5.1",
           gemini: "Google Gemini 2.5-Pro",
           ollama: "Ollama deepseek-r1",
         };

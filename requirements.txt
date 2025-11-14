@@ -1,0 +1,24 @@
+# BrandBook Generator - Python Dependencies
+# AI-Powered Company Brochure Generator with automatic URL discovery
+
+# Core AI & LangChain
+langchain>=1.0.5
+langchain-community>=0.4.1
+langchain-openai>=1.0.2
+openai>=2.8.0
+google-generativeai>=0.8.5
+
+# Web Framework & Server
+fastapi>=0.121.2
+uvicorn>=0.38.0
+jinja2>=3.1.6
+python-multipart>=0.0.20
+
+# Web Scraping & Search
+beautifulsoup4>=4.14.2
+ddgs>=9.9.0
+requests>=2.32.5
+
+# Utilities
+python-dotenv>=1.2.1
+ipython>=9.7.0

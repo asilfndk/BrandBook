@@ -190,7 +190,7 @@ for line in response.iter_lines():
 **OpenAI (Default)**
 ```python
 MODEL_PROVIDER = "openai"
-MODEL_NAME = "gpt-4"  # or "gpt-5"
+MODEL_NAME = "gpt-5"  # or "gpt-4"
 ```
 
 **Google Gemini**
@@ -318,7 +318,7 @@ pip install -r requirements.txt
 
 ## 🚀 Performance Tips
 
-1. **Use OpenAI GPT-4** for best quality results
+1. **Use OpenAI GPT-5** for best quality results
 2. **Ollama (local)** for privacy and unlimited usage
 3. **Gemini** for cost-effective alternative
 4. **Cache URL discoveries** to avoid repeated searches

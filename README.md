@@ -46,7 +46,7 @@ GOOGLE_API_KEY=your_google_key_here
 
 ```bash
 # Start the FastAPI server
-python -m uvicorn app:app --reload --host 0.0.0.0 --port 8000
+.venv/bin/uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
 # Or simply
 python app.py

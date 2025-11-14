@@ -117,13 +117,12 @@ BrandBook/
 ├── url_finder.py           # Intelligent URL discovery (LangChain + DuckDuckGo)
 ├── templates/
 │   └── index.html         # Web UI template
-├── static/
-│   └── style.css          # Additional styles
-├── example.py             # Usage examples
-├── test_url_finder.py     # URL finder tests
+├── static/                 # Static assets (if needed)
 ├── .env                   # Environment variables (API keys)
-├── pyproject.toml         # Project dependencies
-└── README.md              # This file
+├── requirements.txt       # Python dependencies
+├── pyproject.toml         # Project configuration
+├── README.md              # This file
+└── WEB_UI_GUIDE.md        # Web UI documentation
 ```
 
 ## 🔧 API Endpoints (FastAPI)
@@ -245,24 +244,19 @@ PORT=8000
 
 ## 🧪 Testing
 
-### Test URL Finder
+You can test the application using either the web interface or command line:
+
+### Web Interface Testing
 ```bash
-python test_url_finder.py
+python -m uvicorn app:app --reload
+# Open http://localhost:8000 and test with various companies
 ```
 
-This will test URL discovery for multiple companies:
-- HuggingFace
-- OpenAI
-- Anthropic
-- Google
-- Microsoft
-
-### Run Examples
+### Command Line Testing
 ```bash
-python example.py
+python main.py
+# Follow the prompts to test URL discovery and brochure generation
 ```
-
-Interactive example with company selection and brochure generation.
 
 ## 🐛 Troubleshooting
 

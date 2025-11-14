@@ -1,0 +1,56 @@
+[project]
+name = "brandbook"
+version = "0.1.0"
+description = "AI-Powered Company Brochure Generator with automatic URL discovery and web interface"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    { name = "Asil Fındık", email = "fndkasil@gmail.com" }
+]
+keywords = ["ai", "brochure", "generator", "langchain", "fastapi", "openai", "web-scraping"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: FastAPI",
+]
+dependencies = [
+    "beautifulsoup4>=4.14.2",           # HTML parsing and web scraping
+    "ddgs>=9.9.0",                      # DuckDuckGo search API
+    "fastapi>=0.121.2",                 # Web framework for API
+    "google-generativeai>=0.8.5",      # Google Gemini AI integration
+    "ipython>=9.7.0",                   # Interactive Python shell
+    "jinja2>=3.1.6",                    # Template engine for web UI
+    "langchain>=1.0.5",                 # AI orchestration framework
+    "langchain-community>=0.4.1",       # LangChain community tools
+    "langchain-openai>=1.0.2",          # OpenAI integration for LangChain
+    "openai>=2.8.0",                    # OpenAI API client
+    "python-dotenv>=1.2.1",             # Environment variable management
+    "python-multipart>=0.0.20",         # Form data parsing for FastAPI
+    "requests>=2.32.5",                 # HTTP library
+    "uvicorn>=0.38.0",                  # ASGI server for FastAPI
+]
+
+[project.urls]
+Homepage = "https://github.com/asilfndk/BrandBook"
+
+[project.scripts]
+brandbook-web = "app:main"
+brandbook-cli = "main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = []
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]

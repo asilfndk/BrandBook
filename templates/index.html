@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BrandBook Generator - AI-Powered Company Brochures</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+        animation: fadeIn 0.8s ease-in;
+      }
+
+      header h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
+
+      .main-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.8s ease-out;
+      }
+
+      .step {
+        margin-bottom: 30px;
+      }
+
+      .step-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .step-number {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 15px;
+      }
+
+      .step h2 {
+        color: #333;
+        font-size: 1.5em;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: 600;
+      }
+
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: all 0.3s;
+      }
+
+      input[type="text"]:focus,
+      select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #ffffff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear infinite;
+      }
+
+      .result-section {
+        margin-top: 30px;
+        padding: 30px;
+        background: #f8f9fa;
+        border-radius: 15px;
+        display: none;
+      }
+
+      .result-section.active {
+        display: block;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      .brochure-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        line-height: 1.8;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .brochure-content h1,
+      .brochure-content h2,
+      .brochure-content h3 {
+        color: #667eea;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .brochure-content p {
+        margin-bottom: 15px;
+      }
+
+      .brochure-content ul,
+      .brochure-content ol {
+        margin-left: 20px;
+        margin-bottom: 15px;
+      }
+
+      .status-message {
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .status-message.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .status-message.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .status-message.info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      .model-selector {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .model-option {
+        padding: 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+        background: white;
+      }
+
+      .model-option:hover {
+        border-color: #667eea;
+        background: #f8f9fa;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+      }
+
+      .model-option.selected {
+        border-color: #667eea;
+        background: linear-gradient(
+          135deg,
+          rgba(102, 126, 234, 0.1) 0%,
+          rgba(118, 75, 162, 0.1) 100%
+        );
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      .model-option h3 {
+        margin-bottom: 8px;
+        color: #333;
+        font-size: 1.3em;
+      }
+
+      .model-option p {
+        margin-bottom: 5px;
+        color: #667eea;
+        font-weight: 600;
+      }
+
+      .model-option small {
+        color: #888;
+        font-size: 0.85em;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .typewriter {
+        overflow: hidden;
+        white-space: pre-wrap;
+        animation: typing 0.5s steps(40, end);
+      }
+
+      @media (max-width: 768px) {
+        .model-selector {
+          grid-template-columns: 1fr;
+        }
+
+        header h1 {
+          font-size: 2em;
+        }
+
+        .main-card {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎨 BrandBook Generator</h1>
+        <p>AI-Powered Company Brochure Generator with Auto URL Discovery</p>
+      </header>
+
+      <div class="main-card">
+        <!-- Step 0: AI Model Selection -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-number">⚙️</div>
+            <h2>Select AI Model</h2>
+          </div>
+          <div class="model-selector">
+            <div
+              class="model-option"
+              data-provider="openai"
+              onclick="selectModel('openai', 'gpt-5')"
+            >
+              <h3>🤖 OpenAI</h3>
+              <p>GPT-5</p>
+              <small>Best quality</small>
+            </div>
+            <div
+              class="model-option"
+              data-provider="gemini"
+              onclick="selectModel('gemini', 'gemini-2.5-pro')"
+            >
+              <h3>✨ Gemini</h3>
+              <p>2.5-Pro</p>
+              <small>Cost-effective</small>
+            </div>
+            <div
+              class="model-option"
+              data-provider="ollama"
+              onclick="selectModel('ollama', 'deepseek-r1')"
+            >
+              <h3>💻 Ollama</h3>
+              <p>deepseek-r1</p>
+              <small>Privacy-first</small>
+            </div>
+          </div>
+          <div
+            id="modelStatus"
+            style="
+              margin-top: 10px;
+              padding: 10px;
+              background: #f0f0f0;
+              border-radius: 8px;
+              display: none;
+            "
+          >
+            <strong>Selected:</strong>
+            <span id="currentModel">OpenAI GPT-4</span>
+          </div>
+        </div>
+
+        <!-- Step 1: Company Name -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <h2>Enter Company Name</h2>
+          </div>
+          <div class="input-group">
+            <label for="companyName">Company or Website Name</label>
+            <input
+              type="text"
+              id="companyName"
+              placeholder="e.g., HuggingFace, OpenAI, Anthropic"
+              autocomplete="off"
+            />
+          </div>
+          <button id="findUrlBtn" onclick="findCompanyUrl()">
+            <span id="findBtnText">🔍 Find Website</span>
+            <div id="findLoader" class="loading" style="display: none"></div>
+          </button>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message"></div>
+
+        <!-- Step 2: Website URL -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <h2>Website URL</h2>
+          </div>
+          <div class="input-group">
+            <label for="websiteUrl">Official Website URL</label>
+            <input
+              type="text"
+              id="websiteUrl"
+              placeholder="https://example.com"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+
+        <!-- Step 3: Generate Brochure -->
+        <div class="step">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <h2>Generate Brochure</h2>
+          </div>
+          <button id="generateBtn" onclick="generateBrochure()">
+            <span id="genBtnText">✨ Generate Brochure</span>
+            <div id="genLoader" class="loading" style="display: none"></div>
+          </button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultSection" class="result-section">
+          <h2 style="margin-bottom: 20px">📄 Your Brochure</h2>
+          <div id="brochureContent" class="brochure-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      let currentCompanyName = "";
+      let selectedProvider = "openai";
+      let selectedModel = "gpt-5";
+
+      // Initialize model on page load
+      window.addEventListener("DOMContentLoaded", function () {
+        selectModel("openai", "gpt-5");
+      });
+
+      async function selectModel(provider, modelName) {
+        selectedProvider = provider;
+        selectedModel = modelName;
+
+        // Update UI
+        document.querySelectorAll(".model-option").forEach((opt) => {
+          opt.classList.remove("selected");
+        });
+        document
+          .querySelector(`[data-provider="${provider}"]`)
+          .classList.add("selected");
+
+        // Show status
+        const modelNames = {
+          openai: "OpenAI GPT-5",
+          gemini: "Google Gemini 2.5-Pro",
+          ollama: "Ollama deepseek-r1",
+        };
+        document.getElementById("currentModel").textContent =
+          modelNames[provider];
+        document.getElementById("modelStatus").style.display = "block";
+
+        // Send to backend
+        try {
+          const formData = new FormData();
+          formData.append("provider", provider);
+          formData.append("model_name", modelName);
+
+          const response = await fetch("/api/set-model", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showStatus(`✅ Model set to ${modelNames[provider]}`, "success");
+          } else {
+            showStatus(`⚠️ Error: ${data.error}`, "error");
+          }
+        } catch (error) {
+          showStatus(`❌ Error: ${error.message}`, "error");
+        }
+      }
+
+      function showStatus(message, type) {
+        const statusEl = document.getElementById("statusMessage");
+        statusEl.textContent = message;
+        statusEl.className = `status-message ${type}`;
+        statusEl.style.display = "block";
+
+        if (type === "success") {
+          setTimeout(() => {
+            statusEl.style.display = "none";
+          }, 5000);
+        }
+      }
+
+      async function findCompanyUrl() {
+        const companyName = document.getElementById("companyName").value.trim();
+
+        if (!companyName) {
+          showStatus("Please enter a company name", "error");
+          return;
+        }
+
+        currentCompanyName = companyName;
+
+        // UI updates
+        const btn = document.getElementById("findUrlBtn");
+        const btnText = document.getElementById("findBtnText");
+        const loader = document.getElementById("findLoader");
+
+        btn.disabled = true;
+        btnText.style.display = "none";
+        loader.style.display = "inline-block";
+
+        showStatus("🔍 Searching for website URL...", "info");
+
+        try {
+          const formData = new FormData();
+          formData.append("company_name", companyName);
+
+          const response = await fetch("/api/find-url", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            document.getElementById("websiteUrl").value = data.url;
+            showStatus(`✅ Found website: ${data.url}`, "success");
+          } else {
+            showStatus(
+              `⚠️ Could not find URL automatically. Please enter manually.`,
+              "error"
+            );
+          }
+        } catch (error) {
+          showStatus(`❌ Error: ${error.message}`, "error");
+        } finally {
+          btn.disabled = false;
+          btnText.style.display = "inline";
+          loader.style.display = "none";
+        }
+      }
+
+      async function generateBrochure() {
+        const companyName = document.getElementById("companyName").value.trim();
+        const websiteUrl = document.getElementById("websiteUrl").value.trim();
+
+        if (!companyName) {
+          showStatus("Please enter a company name", "error");
+          return;
+        }
+
+        if (!websiteUrl) {
+          showStatus("Please enter a website URL", "error");
+          return;
+        }
+
+        currentCompanyName = companyName;
+
+        // UI updates
+        const btn = document.getElementById("generateBtn");
+        const btnText = document.getElementById("genBtnText");
+        const loader = document.getElementById("genLoader");
+        const resultSection = document.getElementById("resultSection");
+        const brochureContent = document.getElementById("brochureContent");
+
+        btn.disabled = true;
+        btnText.style.display = "none";
+        loader.style.display = "inline-block";
+
+        showStatus("✨ Generating brochure... This may take a moment.", "info");
+
+        resultSection.classList.add("active");
+        brochureContent.innerHTML =
+          '<p style="color: #667eea;">Generating your brochure...</p>';
+
+        try {
+          const formData = new FormData();
+          formData.append("company_name", companyName);
+          formData.append("website_url", websiteUrl);
+
+          const response = await fetch("/api/generate-brochure", {
+            method: "POST",
+            body: formData,
+          });
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+          let accumulatedText = "";
+
+          while (true) {
+            const { done, value } = await reader.read();
+
+            if (done) break;
+
+            const chunk = decoder.decode(value);
+            const lines = chunk.split("\n");
+
+            for (const line of lines) {
+              if (line.startsWith("data: ")) {
+                const data = JSON.parse(line.slice(6));
+
+                if (data.error) {
+                  showStatus(`❌ Error: ${data.error}`, "error");
+                  brochureContent.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                  break;
+                }
+
+                if (data.content) {
+                  accumulatedText += data.content;
+                  brochureContent.innerHTML = marked.parse(accumulatedText);
+                }
+
+                if (data.done) {
+                  showStatus("✅ Brochure generated successfully!", "success");
+                }
+              }
+            }
+          }
+        } catch (error) {
+          showStatus(`❌ Error: ${error.message}`, "error");
+          brochureContent.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+        } finally {
+          btn.disabled = false;
+          btnText.style.display = "inline";
+          loader.style.display = "none";
+        }
+      }
+
+      // Allow Enter key to trigger actions
+      document
+        .getElementById("companyName")
+        .addEventListener("keypress", (e) => {
+          if (e.key === "Enter") findCompanyUrl();
+        });
+
+      document
+        .getElementById("websiteUrl")
+        .addEventListener("keypress", (e) => {
+          if (e.key === "Enter") generateBrochure();
+        });
+    </script>
+  </body>
+</html>

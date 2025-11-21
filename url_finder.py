@@ -60,13 +60,13 @@ def extract_domain_from_results(results):
 
                 # Prefer .com and .co domains (higher priority)
                 if '.com' in href:
-                    score += 5
+                    score += 10  # Highest priority for .com
                 elif '.co/' in href or href.endswith('.co'):
-                    score += 4
-                elif '.io' in href:
-                    score += 2
+                    score += 7
                 elif '.ai' in href:
-                    score += 2
+                    score += 3
+                elif '.io' in href:
+                    score += 3
 
                 # Penalize deep paths
                 score -= path_count
@@ -79,19 +79,18 @@ def extract_domain_from_results(results):
     # Sort by score (descending)
     potential_urls.sort(reverse=True, key=lambda x: x[0])
 
+    # Additional filtering: if we have a .com domain, strongly prefer it
+    com_urls = [url for url in potential_urls if '.com' in url[1]]
+    if com_urls:
+        potential_urls = com_urls
+
     # Return the highest scored URL
     if potential_urls:
         best_url = potential_urls[0][1]
-        # Make sure we return the base domain if possible
+        # Always return base domain for cleaner results
         match = re.search(r'(https?://(?:www\.)?[^/]+)', best_url)
         if match:
             base = match.group(1)
-            # Check if this is just a root domain
-            if best_url == base or best_url == base + '/':
-                return base
-            # If it has one path segment, keep it
-            if best_url.count('/') <= 3:
-                return best_url
             return base
         return best_url
 
@@ -202,9 +201,10 @@ Search Results:
 
 Instructions:
 - Return ONLY the URL (e.g., https://example.com)
+- STRONGLY PREFER .com domains over .ai, .io, or other extensions
 - Choose the most official-looking domain
 - Do not include any explanation, just the URL
-- If multiple URLs found, choose the main one
+- If multiple URLs found, choose the main one (prefer .com)
 - The URL should start with http:// or https://
 
 Official Website URL:"""

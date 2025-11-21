@@ -25,7 +25,7 @@ def initialize_model():
     print("\n=== AI Model Selection ===")
     print("Please choose your AI provider:")
     print("1. OpenAI (GPT-5.1)")
-    print("2. Google Gemini (2.5-pro)")
+    print("2. Google Gemini (2.0-Flash)")
     print("3. Local Ollama (deepseek-r1)")
 
     while True:
@@ -49,7 +49,7 @@ def initialize_model():
 
         elif choice == "2":
             MODEL_PROVIDER = "gemini"
-            MODEL_NAME = "gemini-2.5-pro"
+            MODEL_NAME = "gemini-2.0-flash"
             try:
                 import google.generativeai as genai
                 api_key = os.getenv('GOOGLE_API_KEY')
@@ -136,14 +136,23 @@ def call_ai_model(messages, json_mode=False, stream=False):
 
     elif MODEL_PROVIDER == "gemini":
         # Convert messages to Gemini format
-        model = client.GenerativeModel(MODEL_NAME)
+        generation_config = {}
+        if json_mode:
+            generation_config = {
+                "response_mime_type": "application/json"
+            }
+
+        model = client.GenerativeModel(
+            MODEL_NAME,
+            generation_config=generation_config
+        )
+
         prompt = "\n\n".join(
             [f"{msg['role']}: {msg['content']}" for msg in messages])
-        if json_mode:
-            prompt += "\n\nRespond in valid JSON format only."
-        response = model.generate_content(prompt)
-        # Create OpenAI-compatible response object
 
+        response = model.generate_content(prompt)
+
+        # Create OpenAI-compatible response object
         class GeminiResponse:
             class Choice:
                 class Message:
@@ -253,10 +262,18 @@ def stream_brochure(company_name, url):
     )
     response = ""
     display_handle = display(Markdown(""), display_id=True)
-    for chunk in stream:
-        response += chunk.choices[0].delta.content or ''
-        update_display(Markdown(response),
-                       display_id=display_handle.display_id)
+
+    # Check if display_handle has display_id (might be None in some environments)
+    if display_handle and hasattr(display_handle, 'display_id') and display_handle.display_id:
+        for chunk in stream:
+            response += chunk.choices[0].delta.content or ''
+            update_display(Markdown(response),
+                           display_id=display_handle.display_id)
+    else:
+        # Fallback for environments where display_id doesn't work
+        for chunk in stream:
+            response += chunk.choices[0].delta.content or ''
+        display(Markdown(response))
 
 
 # Example usage:

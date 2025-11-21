@@ -6,7 +6,7 @@ An intelligent brochure generator that automatically discovers company websites 
 
 - 🌐 **Web UI Interface**: Modern, responsive web application with real-time streaming
 - 🤖 **AI-Powered URL Discovery**: Automatically finds company websites using LangChain and DuckDuckGo
-- 🎨 **Multiple AI Providers**: Support for OpenAI (GPT-5.1), Google Gemini (2.5-pro), and Local Ollama (deepseek-r1)
+- 🎨 **Multiple AI Providers**: Support for OpenAI (GPT-5.1), Google Gemini (2.0-Flash), and Local Ollama (deepseek-r1)
 - 🔍 **Smart Web Scraping**: Intelligently extracts relevant information from company websites
 - 📄 **Professional Brochures**: Generates comprehensive brochures in markdown format
 - ⚡ **Streaming Output**: Real-time brochure generation with typewriter animation
@@ -45,28 +45,37 @@ GOOGLE_API_KEY=your_google_key_here
 **Option 1: Web Interface (Recommended)**
 
 ```bash
-# Start the FastAPI server
+# Start the FastAPI server (use virtual environment Python)
 .venv/bin/uvicorn app:app --reload --host 0.0.0.0 --port 8000
 
-# Or simply
-python app.py
+# Or with activated virtual environment
+source .venv/bin/activate
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Then open your browser at: **http://localhost:8000**
 
+**Important:** Always use `.venv/bin/uvicorn` to ensure correct Python environment.
+
 **Option 2: Command Line Interface**
 
 ```bash
+# Use virtual environment Python
+.venv/bin/python main.py
+
+# Or with activated virtual environment
+source .venv/bin/activate
 python main.py
 ```
 
 ## 📖 How It Works
 
 ### Web Interface
-1. **Enter Company Name**: Type any company name (e.g., "HuggingFace", "OpenAI", "Anthropic")
-2. **Auto URL Discovery**: Click "Find Website" - AI searches and finds the official URL
-3. **Generate Brochure**: Click "Generate Brochure" - Watch as the AI creates your brochure in real-time
-4. **View Results**: Professional markdown-formatted brochure with company details
+1. **Select AI Model**: Choose between OpenAI (GPT-5.1), Gemini (2.0-Flash), or Ollama (deepseek-r1)
+2. **Enter Company Name**: Type any company name (e.g., "HuggingFace", "OpenAI", "Anthropic")
+3. **Auto URL Discovery**: Click "Find Website" - AI searches and finds the official URL
+4. **Generate Brochure**: Click "Generate Brochure" - Watch as the AI creates your brochure in real-time
+5. **View Results**: Professional markdown-formatted brochure with company details
 
 ### Command Line
 1. **Select AI Model**: Choose between OpenAI, Gemini, or Ollama
@@ -81,7 +90,7 @@ python main.py
 1. Open http://localhost:8000
 2. Enter "HuggingFace" in the company name field
 3. Click "🔍 Find Website" 
-   → Finds: https://huggingface.co
+   → Finds: https://huggingface.com
 4. Click "✨ Generate Brochure"
    → Streams brochure content in real-time
 ```
@@ -92,7 +101,7 @@ $ python main.py
 
 === AI Model Selection ===
 1. OpenAI (GPT-5.1)
-2. Google Gemini (2.5-pro)
+2. Google Gemini (2.0-Flash)
 3. Local Ollama (deepseek-r1)
 
 Enter your choice (1-3): 1
@@ -100,7 +109,7 @@ Enter your choice (1-3): 1
 Enter company name: HuggingFace
 
 🔍 Searching for HuggingFace's website...
-✅ Found website: https://huggingface.co
+✅ Found website: https://huggingface.com
 
 ✨ Generating brochure for HuggingFace...
 [Brochure content streams here...]
@@ -163,9 +172,9 @@ for line in response.iter_lines():
 ### Backend
 - **FastAPI**: Modern, fast web framework for building APIs
 - **LangChain**: Framework for building AI-powered applications
-- **OpenAI API**: GPT-4/5 for content generation
-- **Google Gemini**: Alternative AI model provider
-- **Ollama**: Local LLM support
+- **OpenAI API**: GPT-5.1 for content generation
+- **Google Gemini**: Gemini 2.0-Flash AI model provider
+- **Ollama**: Local LLM support (deepseek-r1)
 - **BeautifulSoup4**: HTML parsing and web scraping
 - **DDGS**: DuckDuckGo search integration
 - **Uvicorn**: ASGI server
@@ -195,7 +204,7 @@ MODEL_NAME = "gpt-5.1"
 **Google Gemini**
 ```python
 MODEL_PROVIDER = "gemini"
-MODEL_NAME = "gemini-2.5-pro"
+MODEL_NAME = "gemini-2.0-flash"
 ```
 
 **Ollama (Local)**
@@ -223,10 +232,11 @@ PORT=8000
 
 ### Modern Interface
 - ✨ Gradient design with smooth animations
-- 🎯 Three-step workflow (Company → URL → Brochure)
+- 🎯 Four-step workflow (Model Selection → Company Name → URL Discovery → Brochure)
 - 📊 Real-time status updates
 - 🔄 Loading indicators
 - ✅ Success/error notifications
+- 🤖 AI model selection (OpenAI/Gemini/Ollama)
 
 ### User Experience
 - 🚀 One-click URL discovery

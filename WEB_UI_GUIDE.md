@@ -2,27 +2,39 @@
 
 ## Starting the Application
 
-1. **Activate virtual environment** (if not already active):
-```bash
-source .venv/bin/activate
-```
-
-2. **Start the web server**:
+1. **Start the web server** (recommended - uses virtual environment):
 ```bash
 .venv/bin/uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Or simply:
+Or if you have activated the virtual environment:
 ```bash
+source .venv/bin/activate
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
+
+**Important:** Always use `.venv/bin/uvicorn` to ensure the correct Python environment is used.
 
 3. **Open your browser** and navigate to:
 ```
 http://localhost:8000
 ```
 
+The server is now running! You should see:
+- "✓ Model initialized with OpenAI GPT-5.1" in the terminal
+- The BrandBook Generator interface in your browser
+
+**Note:** Keep the terminal running while using the web UI. Press `CTRL+C` to stop the server.
+
 ## Using the Web Interface
+
+### Step 0: Select AI Model
+- Choose your preferred AI provider:
+  - **OpenAI GPT-5.1**: Best quality, requires API key
+  - **Google Gemini 2.0-Flash**: Cost-effective alternative
+  - **Ollama deepseek-r1**: Local, privacy-first (requires Ollama running)
+- Click on a model card to select it
+- The selected model will be highlighted
 
 ### Step 1: Enter Company Name
 - Type the name of any company (e.g., "HuggingFace", "OpenAI", "Google")
@@ -130,7 +142,7 @@ import requests
 
 # Switch to Gemini
 requests.post('http://localhost:8000/api/set-model', 
-              data={'provider': 'gemini', 'model_name': 'gemini-2.5-pro'})
+              data={'provider': 'gemini', 'model_name': 'gemini-2.0-flash'})
 
 # Switch to Ollama (local)
 requests.post('http://localhost:8000/api/set-model', 

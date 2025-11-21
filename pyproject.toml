@@ -1,13 +1,13 @@
 [project]
 name = "brandbook"
 version = "0.1.0"
-description = "AI-Powered Company Brochure Generator with automatic URL discovery and web interface"
+description = "AI-Powered Company Brochure Generator with automatic URL discovery. Supports OpenAI GPT-5.1, Google Gemini 2.0-Flash, and Ollama deepseek-r1."
 readme = "README.md"
 requires-python = ">=3.12"
 authors = [
     { name = "Asil Fındık", email = "fndkasil@gmail.com" }
 ]
-keywords = ["ai", "brochure", "generator", "langchain", "fastapi", "openai", "web-scraping"]
+keywords = ["ai", "brochure", "generator", "langchain", "fastapi", "openai", "gemini", "ollama", "gpt-5.1", "web-scraping"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",

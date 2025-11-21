@@ -153,7 +153,7 @@ async def set_model(
             generator.client = OpenAI()
 
         elif provider == "gemini":
-            generator.MODEL_NAME = model_name or "gemini-2.5-pro"
+            generator.MODEL_NAME = model_name or "gemini-2.0-flash"
             import google.generativeai as genai
             import os
             genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))

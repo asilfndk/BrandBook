@@ -42,6 +42,12 @@
         opacity: 0.9;
       }
 
+      .subtitle {
+        font-size: 0.9em;
+        margin-top: 5px;
+        opacity: 0.8;
+      }
+
       .main-card {
         background: white;
         border-radius: 20px;
@@ -209,7 +215,7 @@
 
       .model-selector {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
         margin-bottom: 20px;
       }
@@ -310,6 +316,10 @@
       <header>
         <h1>🎨 BrandBook Generator</h1>
         <p>AI-Powered Company Brochure Generator with Auto URL Discovery</p>
+        <p class="subtitle">
+          Powered by OpenAI GPT-5.1, Claude Sonnet 4.5, Gemini 2.0-Flash &
+          Ollama
+        </p>
       </header>
 
       <div class="main-card">
@@ -328,6 +338,15 @@
               <h3>🤖 OpenAI</h3>
               <p>GPT-5.1</p>
               <small>Best quality</small>
+            </div>
+            <div
+              class="model-option"
+              data-provider="claude"
+              onclick="selectModel('claude', 'claude-sonnet-4.5')"
+            >
+              <h3>🧠 Claude</h3>
+              <p>Sonnet 4.5</p>
+              <small>Reasoning expert</small>
             </div>
             <div
               class="model-option"
@@ -450,6 +469,7 @@
         // Show status
         const modelNames = {
           openai: "OpenAI GPT-5.1",
+          claude: "Anthropic Claude Sonnet 4.5",
           gemini: "Google Gemini 2.0-Flash",
           ollama: "Ollama deepseek-r1",
         };

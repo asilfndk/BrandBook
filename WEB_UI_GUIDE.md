@@ -31,6 +31,7 @@ The server is now running! You should see:
 ### Step 0: Select AI Model
 - Choose your preferred AI provider:
   - **OpenAI GPT-5.1**: Best quality, requires API key
+  - **Anthropic Claude Sonnet 4.5**: Advanced reasoning, requires API key
   - **Google Gemini 2.0-Flash**: Cost-effective alternative
   - **Ollama deepseek-r1**: Local, privacy-first (requires Ollama running)
 - Click on a model card to select it
@@ -93,7 +94,7 @@ The FastAPI backend provides these RESTful endpoints:
 - Generates and streams the brochure content
 
 ### `POST /api/set-model`
-- **Body**: `provider` (openai/gemini/ollama), `model_name` (optional)
+- **Body**: `provider` (openai/claude/gemini/ollama), `model_name` (optional)
 - **Returns**: `{"success": true, "provider": "...", "model": "..."}`
 - Changes the AI model provider
 
@@ -111,6 +112,9 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 # Optional for Google Gemini
 GOOGLE_API_KEY=your_google_api_key_here
+
+# Optional for Anthropic Claude
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
 ```
 
 ## Troubleshooting
@@ -139,6 +143,10 @@ You can programmatically switch between AI providers:
 ```python
 # In Python console or script
 import requests
+
+# Switch to Claude
+requests.post('http://localhost:8000/api/set-model', 
+              data={'provider': 'claude', 'model_name': 'claude-sonnet-4.5'})
 
 # Switch to Gemini
 requests.post('http://localhost:8000/api/set-model', 
@@ -183,9 +191,10 @@ for line in response.iter_lines():
 
 ## Performance Tips
 
-1. **Use OpenAI GPT-5.1** for best quality results
-2. **Ollama (local)** for privacy and unlimited usage
-3. **Gemini** for cost-effective alternative
+1. **Use OpenAI GPT-5.1** for best overall quality
+2. **Claude Sonnet 4.5** for advanced reasoning and analysis
+3. **Ollama (local)** for privacy and unlimited usage
+4. **Gemini** for cost-effective alternative
 4. Keep brochures under 2000 characters for faster generation
 5. Use caching for frequently requested companies (TODO)
 

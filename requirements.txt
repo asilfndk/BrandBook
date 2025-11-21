@@ -2,6 +2,7 @@
 # AI-Powered Company Brochure Generator with automatic URL discovery
 
 # Core AI & LangChain
+anthropic>=0.40.0
 langchain>=1.0.5
 langchain-community>=0.4.1
 langchain-openai>=1.0.2

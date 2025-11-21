@@ -6,7 +6,7 @@ An intelligent brochure generator that automatically discovers company websites 
 
 - 🌐 **Web UI Interface**: Modern, responsive web application with real-time streaming
 - 🤖 **AI-Powered URL Discovery**: Automatically finds company websites using LangChain and DuckDuckGo
-- 🎨 **Multiple AI Providers**: Support for OpenAI (GPT-5.1), Google Gemini (2.0-Flash), and Local Ollama (deepseek-r1)
+- 🎨 **Multiple AI Providers**: Support for OpenAI (GPT-5.1), Anthropic Claude (Sonnet 4.5), Google Gemini (2.0-Flash), and Local Ollama (deepseek-r1)
 - 🔍 **Smart Web Scraping**: Intelligently extracts relevant information from company websites
 - 📄 **Professional Brochures**: Generates comprehensive brochures in markdown format
 - ⚡ **Streaming Output**: Real-time brochure generation with typewriter animation
@@ -38,6 +38,9 @@ OPENAI_API_KEY=your_openai_key_here
 
 # Optional for Google Gemini
 GOOGLE_API_KEY=your_google_key_here
+
+# Optional for Anthropic Claude
+ANTHROPIC_API_KEY=your_anthropic_key_here
 ```
 
 ### Running the Application
@@ -71,14 +74,14 @@ python main.py
 ## 📖 How It Works
 
 ### Web Interface
-1. **Select AI Model**: Choose between OpenAI (GPT-5.1), Gemini (2.0-Flash), or Ollama (deepseek-r1)
+1. **Select AI Model**: Choose between OpenAI (GPT-5.1), Claude (Sonnet 4.5), Gemini (2.0-Flash), or Ollama (deepseek-r1)
 2. **Enter Company Name**: Type any company name (e.g., "HuggingFace", "OpenAI", "Anthropic")
 3. **Auto URL Discovery**: Click "Find Website" - AI searches and finds the official URL
 4. **Generate Brochure**: Click "Generate Brochure" - Watch as the AI creates your brochure in real-time
 5. **View Results**: Professional markdown-formatted brochure with company details
 
 ### Command Line
-1. **Select AI Model**: Choose between OpenAI, Gemini, or Ollama
+1. **Select AI Model**: Choose between OpenAI, Claude, Gemini, or Ollama
 2. **Enter Company Name**: Provide the company name
 3. **Automatic Processing**: System finds URL and generates brochure automatically
 4. **View Output**: Brochure displayed with formatted markdown
@@ -103,8 +106,9 @@ $ python main.py
 1. OpenAI (GPT-5.1)
 2. Google Gemini (2.0-Flash)
 3. Local Ollama (deepseek-r1)
+4. Anthropic Claude (Sonnet 4.5)
 
-Enter your choice (1-3): 1
+Enter your choice (1-4): 1
 
 Enter company name: HuggingFace
 
@@ -173,6 +177,7 @@ for line in response.iter_lines():
 - **FastAPI**: Modern, fast web framework for building APIs
 - **LangChain**: Framework for building AI-powered applications
 - **OpenAI API**: GPT-5.1 for content generation
+- **Anthropic API**: Claude Sonnet 4.5 for high-quality reasoning
 - **Google Gemini**: Gemini 2.0-Flash AI model provider
 - **Ollama**: Local LLM support (deepseek-r1)
 - **BeautifulSoup4**: HTML parsing and web scraping
@@ -207,6 +212,12 @@ MODEL_PROVIDER = "gemini"
 MODEL_NAME = "gemini-2.0-flash"
 ```
 
+**Anthropic Claude**
+```python
+MODEL_PROVIDER = "claude"
+MODEL_NAME = "claude-sonnet-4.5"
+```
+
 **Ollama (Local)**
 ```python
 MODEL_PROVIDER = "ollama"
@@ -223,6 +234,9 @@ OPENAI_API_KEY=sk-...
 # Google Gemini Configuration (Optional)
 GOOGLE_API_KEY=AIza...
 
+# Anthropic Claude Configuration (Optional)
+ANTHROPIC_API_KEY=sk-ant-...
+
 # Server Configuration (Optional)
 HOST=0.0.0.0
 PORT=8000
@@ -236,7 +250,7 @@ PORT=8000
 - 📊 Real-time status updates
 - 🔄 Loading indicators
 - ✅ Success/error notifications
-- 🤖 AI model selection (OpenAI/Gemini/Ollama)
+- 🤖 AI model selection (OpenAI/Claude/Gemini/Ollama)
 
 ### User Experience
 - 🚀 One-click URL discovery
@@ -322,9 +336,10 @@ pip install -r requirements.txt
 
 ## 🚀 Performance Tips
 
-1. **Use OpenAI GPT-5.1** for best quality results
-2. **Ollama (local)** for privacy and unlimited usage
-3. **Gemini** for cost-effective alternative
+1. **Use OpenAI GPT-5.1** for best overall quality
+2. **Claude Sonnet 4.5** for advanced reasoning and analysis
+3. **Ollama (local)** for privacy and unlimited usage
+4. **Gemini** for cost-effective alternative
 4. **Cache URL discoveries** to avoid repeated searches
 5. **Implement request queuing** for high traffic
 6. **Use CDN** for static assets in production
@@ -355,6 +370,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 🙏 Acknowledgments
 
 - OpenAI for GPT models
+- Anthropic for Claude models
 - LangChain for AI orchestration framework
 - FastAPI for the excellent web framework
 - DuckDuckGo for privacy-focused search API

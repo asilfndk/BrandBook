@@ -27,9 +27,10 @@ def initialize_model():
     print("1. OpenAI (GPT-5.1)")
     print("2. Google Gemini (2.0-Flash)")
     print("3. Local Ollama (deepseek-r1)")
+    print("4. Anthropic Claude (Sonnet 4.5)")
 
     while True:
-        choice = input("\nEnter your choice (1-3): ").strip()
+        choice = input("\nEnter your choice (1-4): ").strip()
 
         if choice == "1":
             MODEL_PROVIDER = "openai"
@@ -79,8 +80,24 @@ def initialize_model():
             except Exception as e:
                 print(f"⚠ Error configuring Ollama: {e}")
 
+        elif choice == "4":
+            MODEL_PROVIDER = "claude"
+            MODEL_NAME = "claude-sonnet-4.5"
+            try:
+                from anthropic import Anthropic
+                api_key = os.getenv('ANTHROPIC_API_KEY')
+                if api_key:
+                    client = Anthropic(api_key=api_key)
+                    print("✓ Anthropic Claude configured successfully")
+                    break
+                else:
+                    print("⚠ Error: ANTHROPIC_API_KEY not found in .env file")
+            except ImportError:
+                print("⚠ Error: anthropic package not installed")
+                print("Install it with: pip install anthropic")
+
         else:
-            print("Invalid choice. Please enter 1, 2, or 3")
+            print("Invalid choice. Please enter 1, 2, 3, or 4")
 
     print(f"\n✓ Selected: {MODEL_PROVIDER.upper()} - {MODEL_NAME}")
     return MODEL_PROVIDER, MODEL_NAME, client
@@ -175,6 +192,78 @@ def call_ai_model(messages, json_mode=False, stream=False):
         if json_mode:
             params["response_format"] = {"type": "json_object"}
         return client.chat.completions.create(**params)
+
+    elif MODEL_PROVIDER == "claude":
+        # Anthropic Claude API
+        # Extract system message and user messages separately
+        system_content = ""
+        user_messages = []
+
+        for msg in messages:
+            if msg["role"] == "system":
+                system_content = msg["content"]
+            else:
+                user_messages.append(msg)
+
+        # Claude doesn't have explicit JSON mode, but we can request it in the prompt
+        if json_mode and system_content:
+            system_content += "\n\nYou MUST respond with valid JSON only. No other text."
+
+        if stream:
+            # Streaming mode
+            stream_response = client.messages.stream(
+                model=MODEL_NAME,
+                max_tokens=4096,
+                system=system_content if system_content else None,
+                messages=user_messages
+            )
+
+            # Create OpenAI-compatible streaming response
+            class ClaudeStreamWrapper:
+                def __init__(self, claude_stream):
+                    self.claude_stream = claude_stream
+
+                def __iter__(self):
+                    with self.claude_stream as stream:
+                        for text in stream.text_stream:
+                            # Create OpenAI-compatible chunk
+                            class Chunk:
+                                class Choice:
+                                    class Delta:
+                                        def __init__(self, content):
+                                            self.content = content
+
+                                    def __init__(self, content):
+                                        self.delta = self.Delta(content)
+
+                                def __init__(self, content):
+                                    self.choices = [self.Choice(content)]
+                            yield Chunk(text)
+
+            return ClaudeStreamWrapper(stream_response)
+        else:
+            # Non-streaming mode
+            response = client.messages.create(
+                model=MODEL_NAME,
+                max_tokens=4096,
+                system=system_content if system_content else None,
+                messages=user_messages
+            )
+
+            # Create OpenAI-compatible response object
+            class ClaudeResponse:
+                class Choice:
+                    class Message:
+                        def __init__(self, content):
+                            self.content = content
+
+                    def __init__(self, content):
+                        self.message = self.Message(content)
+
+                def __init__(self, content):
+                    self.choices = [self.Choice(content)]
+
+            return ClaudeResponse(response.content[0].text)
 
 
 def select_relevant_links(url):

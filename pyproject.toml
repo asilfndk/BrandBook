@@ -1,13 +1,13 @@
 [project]
 name = "brandbook"
 version = "0.1.0"
-description = "AI-Powered Company Brochure Generator with automatic URL discovery. Supports OpenAI GPT-5.1, Google Gemini 2.0-Flash, and Ollama deepseek-r1."
+description = "AI-Powered Company Brochure Generator with automatic URL discovery. Supports OpenAI GPT-5.1, Claude Sonnet 4.5, Google Gemini 2.0-Flash, and Ollama deepseek-r1."
 readme = "README.md"
 requires-python = ">=3.12"
 authors = [
     { name = "Asil Fındık", email = "fndkasil@gmail.com" }
 ]
-keywords = ["ai", "brochure", "generator", "langchain", "fastapi", "openai", "gemini", "ollama", "gpt-5.1", "web-scraping"]
+keywords = ["ai", "brochure", "generator", "langchain", "fastapi", "openai", "claude", "anthropic", "gemini", "ollama", "gpt-5.1", "web-scraping"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -17,6 +17,7 @@ classifiers = [
     "Framework :: FastAPI",
 ]
 dependencies = [
+    "anthropic>=0.40.0",                # Anthropic Claude API client
     "beautifulsoup4>=4.14.2",           # HTML parsing and web scraping
     "ddgs>=9.9.0",                      # DuckDuckGo search API
     "fastapi>=0.121.2",                 # Web framework for API

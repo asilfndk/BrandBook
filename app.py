@@ -114,6 +114,16 @@ async def generate_brochure(
                         yield f"data: {json.dumps({'content': content})}\n\n"
                         await asyncio.sleep(0.01)
 
+            elif generator.MODEL_PROVIDER == "claude":
+                # Claude streaming
+                stream = generator.call_ai_model(messages, stream=True)
+
+                for chunk in stream:
+                    if chunk.choices[0].delta.content:
+                        content = chunk.choices[0].delta.content
+                        yield f"data: {json.dumps({'content': content})}\n\n"
+                        await asyncio.sleep(0.01)
+
             elif generator.MODEL_PROVIDER == "gemini":
                 # Gemini doesn't support streaming in the same way
                 model = generator.client.GenerativeModel(generator.MODEL_NAME)
@@ -166,6 +176,13 @@ async def set_model(
                 base_url="http://localhost:11434/v1",
                 api_key="ollama"
             )
+
+        elif provider == "claude":
+            generator.MODEL_NAME = model_name or "claude-sonnet-4.5"
+            from anthropic import Anthropic
+            import os
+            generator.client = Anthropic(
+                api_key=os.getenv('ANTHROPIC_API_KEY'))
 
         model_initialized = True
         return {

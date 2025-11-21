@@ -348,7 +348,6 @@ pip install -r requirements.txt
 
 - [ ] PDF/DOCX export functionality
 - [ ] Brochure templates and themes
-- [ ] Multi-language support
 - [ ] Batch processing for multiple companies
 - [ ] User authentication and saved brochures
 - [ ] Caching layer for URL discoveries

@@ -391,8 +391,33 @@ pip install -r requirements.txt
 - [ ] Custom AI prompt templates
 - [ ] Integration with CRM systems
 - [ ] API rate limiting and quotas
-- [ ] Kubernetes deployment support
-- [ ] CI/CD pipeline integration
+
+## 🔄 CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+| Workflow | Trigger | Description |
+|----------|---------|-------------|
+| **CI/CD Pipeline** | Push/PR to main | Linting, security scan, tests, Docker build |
+| **Release** | Version tags (v*.*.*) | Create GitHub release, push Docker image |
+| **Dependency Check** | Weekly (Monday) | Check for outdated/vulnerable packages |
+
+### Setting Up CI/CD
+
+1. **Add GitHub Secrets** (Settings → Secrets → Actions):
+   - `OPENAI_API_KEY` - For running tests
+   - `DOCKERHUB_USERNAME` - Docker Hub username
+   - `DOCKERHUB_TOKEN` - Docker Hub access token
+
+2. **Create a Release**:
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+
+### Build Status
+
+[![CI/CD Pipeline](https://github.com/asilfndk/BrandBook/actions/workflows/ci.yml/badge.svg)](https://github.com/asilfndk/BrandBook/actions/workflows/ci.yml)
 
 ## 🤝 Contributing
 

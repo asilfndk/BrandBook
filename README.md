@@ -63,7 +63,18 @@ docker compose down
 
 Then open your browser at: **http://localhost:8000**
 
-**Option 2: Web Interface (Local Python)**
+**Option 2: Kubernetes (Production-like)**
+
+```bash
+# Enable Kubernetes in Docker Desktop, then:
+./k8s/deploy.sh
+
+# Access at http://localhost:30080
+```
+
+See `k8s/README.md` for detailed Kubernetes deployment instructions.
+
+**Option 3: Local Python (Development)**
 
 ```bash
 # Start the FastAPI server (use virtual environment Python)
@@ -74,7 +85,7 @@ source .venv/bin/activate
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
-**Option 3: Command Line Interface**
+**Option 4: Command Line Interface**
 
 ```bash
 # Use virtual environment Python
@@ -144,7 +155,15 @@ BrandBook/
 ├── url_finder.py           # Intelligent URL discovery (LangChain + DuckDuckGo)
 ├── templates/
 │   └── index.html          # Web UI template
-├── static/                 # Static assets (if needed)
+├── k8s/                    # Kubernetes deployment manifests
+│   ├── namespace.yaml      # Kubernetes namespace
+│   ├── configmap.yaml      # Application configuration
+│   ├── secret.yaml         # API keys (base64 encoded)
+│   ├── deployment.yaml     # Pod deployment
+│   ├── service.yaml        # NodePort service
+│   ├── ingress.yaml        # Ingress (optional)
+│   ├── deploy.sh           # Automated deployment script
+│   └── README.md           # Kubernetes documentation
 ├── Dockerfile              # Docker container configuration
 ├── docker-compose.yml      # Docker Compose for easy deployment
 ├── .dockerignore           # Docker build exclusions

@@ -1,0 +1,10 @@
+# BrandBook Kubernetes ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: brandbook-config
+  namespace: brandbook
+data:
+  # Application configuration
+  HOST: "0.0.0.0"
+  PORT: "8000"

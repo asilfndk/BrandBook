@@ -1,0 +1,22 @@
+# BrandBook Kubernetes Ingress (Optional)
+# Use this if you have an ingress controller installed
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: brandbook-ingress
+  namespace: brandbook
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: brandbook.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: brandbook-service
+                port:
+                  number: 8000

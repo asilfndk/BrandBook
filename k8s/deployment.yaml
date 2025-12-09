@@ -1,0 +1,63 @@
+# BrandBook Kubernetes Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: brandbook
+  namespace: brandbook
+  labels:
+    app: brandbook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: brandbook
+  template:
+    metadata:
+      labels:
+        app: brandbook
+    spec:
+      containers:
+        - name: brandbook
+          image: brandbook:latest
+          imagePullPolicy: Never  # Use local image (for minikube/kind)
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: brandbook-secrets
+                  key: OPENAI_API_KEY
+            - name: GOOGLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: brandbook-secrets
+                  key: GOOGLE_API_KEY
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: brandbook-secrets
+                  key: ANTHROPIC_API_KEY
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+      restartPolicy: Always

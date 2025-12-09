@@ -1,0 +1,7 @@
+# BrandBook Kubernetes Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: brandbook
+  labels:
+    app: brandbook

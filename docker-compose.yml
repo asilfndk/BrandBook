@@ -1,0 +1,40 @@
+# BrandBook - Docker Compose Configuration
+# AI-Powered Company Brochure Generator
+
+services:
+  brandbook:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: brandbook-app
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Optional: Ollama for local LLM support
+  # Uncomment this section if you want to use Ollama with Docker
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   container_name: brandbook-ollama
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama_data:/root/.ollama
+  #   restart: unless-stopped
+  #   # To pull deepseek-r1 model after container starts:
+  #   # docker exec brandbook-ollama ollama pull deepseek-r1
+
+# volumes:
+#   ollama_data:

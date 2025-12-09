@@ -45,7 +45,25 @@ ANTHROPIC_API_KEY=your_anthropic_key_here
 
 ### Running the Application
 
-**Option 1: Web Interface (Recommended)**
+**Option 1: Docker (Recommended)**
+
+```bash
+# Build and run with Docker Compose
+docker compose up --build
+
+# Run in background
+docker compose up -d --build
+
+# View logs
+docker compose logs -f
+
+# Stop
+docker compose down
+```
+
+Then open your browser at: **http://localhost:8000**
+
+**Option 2: Web Interface (Local Python)**
 
 ```bash
 # Start the FastAPI server (use virtual environment Python)
@@ -56,11 +74,7 @@ source .venv/bin/activate
 uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Then open your browser at: **http://localhost:8000**
-
-**Important:** Always use `.venv/bin/uvicorn` to ensure correct Python environment.
-
-**Option 2: Command Line Interface**
+**Option 3: Command Line Interface**
 
 ```bash
 # Use virtual environment Python
@@ -129,13 +143,16 @@ BrandBook/
 ├── scraper.py              # Web scraping utilities (BeautifulSoup)
 ├── url_finder.py           # Intelligent URL discovery (LangChain + DuckDuckGo)
 ├── templates/
-│   └── index.html         # Web UI template
+│   └── index.html          # Web UI template
 ├── static/                 # Static assets (if needed)
-├── .env                   # Environment variables (API keys)
-├── requirements.txt       # Python dependencies
-├── pyproject.toml         # Project configuration
-├── README.md              # This file
-└── WEB_UI_GUIDE.md        # Web UI documentation
+├── Dockerfile              # Docker container configuration
+├── docker-compose.yml      # Docker Compose for easy deployment
+├── .dockerignore           # Docker build exclusions
+├── .env                    # Environment variables (API keys)
+├── requirements.txt        # Python dependencies
+├── pyproject.toml          # Project configuration
+├── README.md               # This file
+└── WEB_UI_GUIDE.md         # Web UI documentation
 ```
 
 ## 🔧 API Endpoints (FastAPI)
@@ -355,6 +372,8 @@ pip install -r requirements.txt
 - [ ] Custom AI prompt templates
 - [ ] Integration with CRM systems
 - [ ] API rate limiting and quotas
+- [ ] Kubernetes deployment support
+- [ ] CI/CD pipeline integration
 
 ## 🤝 Contributing
 
